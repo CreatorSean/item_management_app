@@ -3,25 +3,32 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../model/existed_item_model.dart';
 import 'existed_item_widget.dart';
 
-class ExistedItemListWidget extends StatelessWidget {
-  final Future<List<ExistedItemModel>> existedItemList;
+class ExistedItemListWidget extends StatefulWidget {
+  final Future<List<ExistedItemModel>> modelList;
   late Function settingHome;
 
   ExistedItemListWidget({
     Key? key,
-    required this.existedItemList,
     required this.settingHome,
+    required this.modelList,
   }) : super(key: key);
 
   @override
+  State<ExistedItemListWidget> createState() => _ExistedItemListWidgetState();
+}
+
+class _ExistedItemListWidgetState extends State<ExistedItemListWidget> {
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: existedItemList,
+      //==========future에 List<ExistedItemModel>을 저장========================
+      future: widget.modelList,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return SizedBox(
-            height: 600,
+            height: 550,
             width: 390,
+            //=====future인 List<ExistedItemModel>을 ListView 형태로 보여줌=====
             child: ListView.separated(
               padding: const EdgeInsets.symmetric(vertical: 17, horizontal: 17),
               scrollDirection: Axis.vertical,
@@ -29,19 +36,17 @@ class ExistedItemListWidget extends StatelessWidget {
               separatorBuilder: (context, index) => const SizedBox(
                 height: 15,
               ),
+              //========List 요소인 ExistedItemModel을 각 위젯에 넘겨줌=========
               itemBuilder: (context, index) {
-                print(index);
                 var item = snapshot.data![index];
-                //컨테이너 리턴하기
                 return ExistedItemWidget(
-                  settingHome: settingHome,
+                  settingHome: widget.settingHome,
                   model: item,
                 );
               },
             ),
           );
         }
-
         return Column(
           children: [
             const SizedBox(

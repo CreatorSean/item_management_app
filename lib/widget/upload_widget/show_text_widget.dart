@@ -2,7 +2,11 @@ import 'package:flutter/cupertino.dart';
 
 ///텍스트 적을 때 사용
 class ShowTextWidget extends StatelessWidget {
-  ShowTextWidget({super.key, required this.textContent, required this.contentFontSize, contentFontWeight});
+  ShowTextWidget(
+      {super.key,
+      required this.textContent,
+      required this.contentFontSize,
+      contentFontWeight});
 
   final String textContent;
   final double contentFontSize;

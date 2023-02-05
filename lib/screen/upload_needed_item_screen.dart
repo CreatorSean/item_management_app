@@ -19,27 +19,10 @@ class UploadNeededItemScreen extends StatefulWidget {
 }
 
 class _UploadItemScreenState extends State<UploadNeededItemScreen> {
-  final sortList = [
-    '공구',
-    '필기구',
-    '간식',
-    '기계',
-    '기타'
-  ];
+  final sortList = ['공구', '필기구', '간식', '기계', '기타'];
   var _selectedSort = '공구'; //디폴트값
 
-  final countList = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10'
-  ];
+  final countList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
   var _selectedBundle = '1'; //디폴트값
 
   final itemnameTextController = TextEditingController();
@@ -47,7 +30,13 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
   final priceTextController = TextEditingController();
   final reasonTextController = TextEditingController();
 
-  late var neededItemNameInput, neededPriceInput, neededCountInput, neededReasonInput, neededSortInput, neededBundleInput, neededIsExpendablesInput;
+  late var neededItemNameInput,
+      neededPriceInput,
+      neededCountInput,
+      neededReasonInput,
+      neededSortInput,
+      neededBundleInput,
+      neededIsExpendablesInput;
 
   @override
   void dispose() {
@@ -60,10 +49,7 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
 
   @override
   void initState() {
-    isSelected = [
-      isMetric,
-      isImperial
-    ];
+    isSelected = [isMetric, isImperial];
     super.initState();
 
     //int counter = 0;
@@ -86,7 +72,6 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
     NeededItemDBService.insertNeededItem(newModel);
 
     widget.settingHome();
-    print('saveDatabase');
   }
 
   @override
@@ -102,13 +87,14 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
         child: Material(
           color: Colors.white,
           elevation: 2,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
                 children: [
-//-----------------------뒤로가기 버튼, 필요물품 추가----------------------------
+//=======================뒤로가기 버튼, 필요물품 추가===========================
                   Row(
                     //최상단 필요물품 추가하기
                     children: [
@@ -131,7 +117,7 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
                     ],
                   ),
                   const SizedBox(height: 30),
-//-----------------------------물품명(TextFormField)----------------------------
+//=============================물품명(TextFormField)============================
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
@@ -154,7 +140,7 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
                               ),
                             ],
                           ),
-//----------------------------종류(DropdownButton)-----------------------------
+//============================종류(DropdownButton)==============================
                           const SizedBox(height: 20),
                           Row(
                             children: [
@@ -168,7 +154,8 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
                                 width: 75,
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: const Color.fromARGB(255, 55, 61, 79),
+                                    color:
+                                        const Color.fromARGB(255, 55, 61, 79),
                                   ),
                                   borderRadius: BorderRadius.circular(5),
                                 ),
@@ -192,7 +179,7 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
                               ),
                             ],
                           ),
-//--------------------개수(TextFormField), set(bundle)--------------------------
+//====================개수(TextFormField), set(bundle)==========================
                           const SizedBox(height: 20),
                           Row(
                             children: [
@@ -221,7 +208,8 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
                                 width: 55,
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: const Color.fromARGB(255, 55, 61, 79),
+                                    color:
+                                        const Color.fromARGB(255, 55, 61, 79),
                                   ),
                                   borderRadius: BorderRadius.circular(5),
                                 ),
@@ -250,7 +238,7 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
                               ),
                             ],
                           ),
-//--------------------------------총 가격(TextFormField)------------------------
+//================================총 가격(TextFormField)========================
                           const SizedBox(height: 20),
                           Row(
                             children: [
@@ -273,7 +261,7 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
                               ),
                             ],
                           ),
-//------------------------------소모품(toggleButtons)---------------------------
+//==============================소모품(toggleButtons)===========================
                           const SizedBox(height: 20),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -284,14 +272,16 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
                                 onPressed: toggleSelect,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
                                     child: ShowTextWidget(
                                       textContent: '소모품',
                                       contentFontSize: 15,
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
                                     child: ShowTextWidget(
                                       textContent: '비품',
                                       contentFontSize: 15,
@@ -301,31 +291,60 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
                               ),
                             ],
                           ),
-//----------------------------필요이유(TextFormField)---------------------------
+//============================필요이유(TextFormField)===========================
                           const SizedBox(height: 10),
 
                           TextFormField(
                             controller: reasonTextController,
-                            maxLines: 8,
+                            maxLines: 5,
                             maxLength: 100,
-                            decoration: const InputDecoration(border: OutlineInputBorder(), labelText: '필요이유', hintText: '필요이유를 작성해주세요'),
+                            decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: '필요이유',
+                                hintText: '필요이유를 작성해주세요'),
                           ),
-//-----------------------------아이콘 버튼(변수 저장)----------------------------
+//=============================아이콘 버튼(변수 저장)===========================
                           IconButton(
                             color: const Color.fromARGB(255, 55, 61, 79),
                             iconSize: 50,
                             icon: const Icon(Icons.add_circle),
                             onPressed: () {
-                              neededItemNameInput = itemnameTextController.text;
-                              neededPriceInput = priceTextController.text;
-                              neededCountInput = countTextController.text;
-                              neededReasonInput = reasonTextController.text;
-                              neededSortInput = _selectedSort;
-                              neededBundleInput = _selectedBundle;
-                              neededIsExpendablesInput = isExpendable;
-                              print(priceTextController.text);
-                              Navigator.pop(context);
-                              saveDatabase();
+                              if (itemnameTextController.text.isEmpty ||
+                                  countTextController.text.isEmpty ||
+                                  priceTextController.text.isEmpty) {
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: true,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      content: const Text(
+                                          '물품명, 개수, 가격은 필수 입력 항목입니다.'),
+                                      insetPadding: const EdgeInsets.fromLTRB(
+                                          0, 80, 0, 80),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: (() {
+                                            Navigator.of(context).pop();
+                                          }),
+                                          child: const Text('확인'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              } else {
+                                neededItemNameInput =
+                                    itemnameTextController.text;
+                                neededPriceInput = priceTextController.text;
+                                neededCountInput = countTextController.text;
+                                neededReasonInput = reasonTextController.text;
+                                neededSortInput = _selectedSort;
+                                neededBundleInput = _selectedBundle;
+                                neededIsExpendablesInput = isExpendable;
+
+                                Navigator.pop(context);
+                                saveDatabase();
+                              }
                             },
                           ),
                         ],
@@ -359,10 +378,7 @@ class _UploadItemScreenState extends State<UploadNeededItemScreen> {
       isExpendable = '비품';
     }
     setState(() {
-      isSelected = [
-        isMetric,
-        isImperial
-      ];
+      isSelected = [isMetric, isImperial];
     });
   }
 }

@@ -46,11 +46,11 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
   final noteTextController = TextEditingController();
 
   //Input받는 데이터가 저장되는 변수들
-  var existedItemNameInput,
+  late String existedItemNameInput,
       existedDetailLocaitonInput,
       existedCountInput,
       existedReasonInput;
-  var existedSortInput,
+  late String existedSortInput,
       existedBundleInput,
       existedBroadLocationInput,
       existedNarrowLocationInput,
@@ -89,7 +89,6 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
     ExistedItemDBService.insertExistedItem(newModel);
 
     widget.settingHome();
-    print('saveDatabase');
   }
 
   @override
@@ -111,7 +110,7 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
                 child: Column(
                   children: [
                     Row(
-//-----------------------뒤로가기 버튼, 구비물품 추가----------------------------
+//=======================뒤로가기 버튼, 필요물품 추가===========================
                       children: [
                         IconButton(
                           icon: const Icon(Icons.arrow_back_ios_new_outlined),
@@ -129,7 +128,7 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
                       ],
                     ),
                     const SizedBox(height: 30),
-                    //물품명 적는 위젯
+//=============================물품명(TextFormField)============================
                     Row(
                       children: [
                         ShowTextWidget(
@@ -147,7 +146,7 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
                       ],
                     ),
                     const SizedBox(height: 20),
-//----------------------------종류(DropdownButton)-----------------------------
+//============================종류(DropdownButton)==============================
                     Row(
                       children: [
                         ShowTextWidget(
@@ -184,7 +183,7 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
                         ),
                       ],
                     ),
-//-------------------------------위치------------------------------------------
+//================================위치==========================================
                     const SizedBox(height: 20),
                     Row(
                       children: [
@@ -192,7 +191,7 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
                           textContent: '위치',
                           contentFontSize: 20,
                         ),
-//----------------------------건물이름(DropdownButton)--------------------------
+//============================건물이름(DropdownButton)==========================
                         const SizedBox(width: 40),
 
                         Container(
@@ -222,7 +221,7 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
                             },
                           ),
                         ),
-//-----------------------------강의실(DropdownButton)---------------------------
+//============================강의실(DropdownButton)============================
                         const SizedBox(width: 20),
                         Container(
                           height: 45,
@@ -255,7 +254,7 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
                         const SizedBox(width: 10),
                       ],
                     ),
-//----------------------------상세위치(TextFormField)---------------------------
+//============================상세위치(TextFormField)============================
                     const SizedBox(height: 20),
                     const SizedBox(width: 40),
                     TextBoxWidget(
@@ -267,7 +266,7 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
                     ),
                     const SizedBox(height: 20),
 
-//--------------------개수(TextFormField), set(bundle)--------------------------
+//====================개수(TextFormField), set(bundle)==========================
                     Row(
                       children: [
                         ShowTextWidget(
@@ -323,7 +322,7 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
                       ],
                     ),
                     const SizedBox(height: 20),
-//------------------------------소모품(toggleButtons)---------------------------
+//==============================소모품(toggleButtons)===========================
 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -357,7 +356,7 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
                       ],
                     ),
                     const SizedBox(height: 10),
-//------------------------------비고(TextFormField)----------------------------
+//==============================비고(TextFormField)=============================
                     TextFormField(
                       controller: noteTextController,
                       decoration: const InputDecoration(
@@ -365,24 +364,49 @@ class _UploadExistedItemScreenState extends State<UploadExistedItemScreen> {
                         labelText: '비고',
                       ),
                     ),
-//-----------------------------아이콘 버튼(변수 저장)----------------------------
+//=============================아이콘 버튼(변수 저장)===========================
                     IconButton(
                       icon: const Icon(Icons.add_circle),
                       color: const Color.fromARGB(255, 55, 61, 79),
                       iconSize: 70,
                       onPressed: () {
-                        existedItemNameInput = itemNameTextController.text;
-                        existedDetailLocaitonInput =
-                            detailLocationTextController.text;
-                        existedCountInput = countTextController.text;
-                        existedSortInput = noteTextController.text;
-                        existedSortInput = _selectedSort;
-                        existedBundleInput = _selectedBunddle;
-                        existedBroadLocationInput = _selectedBroadLocation;
-                        existedNarrowLocationInput = _selectedNarrowLocation;
-                        existedIsExpendableInput = isExpendable;
-                        Navigator.pop(context);
-                        saveDatabase();
+                        if (itemNameTextController.text.isEmpty ||
+                            countTextController.text.isEmpty ||
+                            detailLocationTextController.text.isEmpty) {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: true,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                content:
+                                    const Text('물품명,상세위치,개수는 필수 입력 항목입니다.'),
+                                insetPadding:
+                                    const EdgeInsets.fromLTRB(0, 80, 0, 80),
+                                actions: [
+                                  TextButton(
+                                    onPressed: (() {
+                                      Navigator.of(context).pop();
+                                    }),
+                                    child: const Text('확인'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        } else {
+                          existedItemNameInput = itemNameTextController.text;
+                          existedDetailLocaitonInput =
+                              detailLocationTextController.text;
+                          existedCountInput = countTextController.text;
+                          existedSortInput = noteTextController.text;
+                          existedSortInput = _selectedSort;
+                          existedBundleInput = _selectedBunddle;
+                          existedBroadLocationInput = _selectedBroadLocation;
+                          existedNarrowLocationInput = _selectedNarrowLocation;
+                          existedIsExpendableInput = isExpendable;
+                          Navigator.pop(context);
+                          saveDatabase();
+                        }
                       },
                     ),
                   ],

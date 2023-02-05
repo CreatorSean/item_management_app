@@ -5,25 +5,32 @@ import '../../model/needed_item_model.dart';
 
 import 'needed_item_widget.dart';
 
-class NeededItemListWidget extends StatelessWidget {
-  final Future<List<NeededItemModel>> neededItemList;
+class NeededItemListWidget extends StatefulWidget {
+  final Future<List<NeededItemModel>> modelList;
   late Function settingHome;
 
   NeededItemListWidget({
     Key? key,
-    required this.neededItemList,
+    required this.modelList,
     required this.settingHome,
   }) : super(key: key);
 
   @override
+  State<NeededItemListWidget> createState() => _NeededItemListWidgetState();
+}
+
+class _NeededItemListWidgetState extends State<NeededItemListWidget> {
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: neededItemList,
+      //===========future에 List<NeededItemModel>을 저장========================
+      future: widget.modelList,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return SizedBox(
-            height: 600,
+            height: 550,
             width: 390,
+            //=====future인 modelList를 ListView 형태로 보여줌======
             child: ListView.separated(
               padding: const EdgeInsets.symmetric(vertical: 17, horizontal: 17),
               scrollDirection: Axis.vertical,
@@ -31,13 +38,12 @@ class NeededItemListWidget extends StatelessWidget {
               separatorBuilder: (context, index) => const SizedBox(
                 height: 15,
               ),
+              //=========List 요소인 NeededItemModel을 각 위젯에 넘겨줌=========
               itemBuilder: (context, index) {
-                print(index);
                 var item = snapshot.data![index];
-                //컨테이너 리턴하기
                 return NeededItemWidget(
                   model: item,
-                  settingHome: settingHome,
+                  settingHome: widget.settingHome,
                 );
               },
             ),
@@ -54,27 +60,6 @@ class NeededItemListWidget extends StatelessWidget {
             ),
           ],
         );
-        // SizedBox(
-        //   height: 150,
-        //   child: Row(
-        //     mainAxisAlignment: MainAxisAlignment.center,
-        //     crossAxisAlignment: CrossAxisAlignment.center,
-        //     children: [
-        //       const Center(
-        //         child: Text(
-        //           'laoding',
-        //           style: TextStyle(fontSize: 3),
-        //         ),
-        //       ),
-        //       Center(
-        //         child: LoadingAnimationWidget.waveDots(
-        //           color: const Color.fromARGB(255, 55, 61, 79),
-        //           size: 15,
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // );
       },
     );
   }

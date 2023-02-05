@@ -1,5 +1,3 @@
-//사용자가 편집하길 원하는 모든 데이터를 가지고 있어야 함.
-// 뷰가 필요한 데이터를 모델에 담아야 함.
 class ExistedItemModel {
   final int id; //물품 id
   final String name; //물품명
